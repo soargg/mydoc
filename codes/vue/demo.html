@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <input type="text" id="a" v-model="val" />
+        {{ val }}
+    </div>
+</body>
+<script>
+    var vm = new Vue({
+        el: 'app',
+        data: {
+            val: 'liyeg'
+        }
+    });
+
+
+    function Vue(conf) {
+        this.id = conf.el;
+        this.data = conf.data;
+
+        observe(this.data, this);
+
+        const container = document.getElementById(this.id)
+        const fragment = nodeToFragment(container, this);
+        container.appendChild(fragment);
+    }
+
+    function nodeToFragment(node,  vm) {
+        const fragment = document.createDocumentFragment();
+        let child;
+        while(child = node.firstChild) {
+            fragment.appendChild(child);
+            compile(child, vm);
+        }
+        return fragment;
+    }
+
+    function compile(node, vm) {
+        const reg = /\{\{(.*)\}\}/;
+
+        // 如果是元素节点
+        if (node.nodeType === 1) {
+            const attr = node.attributes;
+
+            for (let i = 0; i < attr.length; i++) {
+                if (attr[i].nodeName === 'v-model') {
+                    const key = attr[i].nodeValue;
+
+                    node.addEventListener('input', (e) => {
+                        vm[key] = e.target.value;
+                    });
+
+                    node.value = vm.data[key]
+                    node.removeAttribute('v-model');
+                }
+            }
+        }
+
+        // 文本节点
+        if (node.nodeType === 3) {
+            if (reg.test(node.nodeValue)) {
+                const key = RegExp.$1.trim();
+                new Watcher(vm, node, key)
+            }
+        }
+    }
+
+    function defineReactive(obj, key, val) {
+        const dep = new Dep();
+
+        Object.defineProperty(obj, key, {
+            get: function() {
+                if (Dep.target) {
+                    dep.addSub(Dep.target);
+                }
+                return val;
+            },
+            set: function(newVal) {
+                if (newVal !== val) {
+                    val = newVal;
+                    dep.notify();
+                }
+            }
+        })
+    }
+
+    function observe(obj, vm) {
+        for(let key in obj) {
+            defineReactive(vm, key, obj[key]);
+        }
+    }
+
+    function Dep() {
+        this.subs = [];
+    }
+    Dep.prototype = {
+        addSub(w) {
+            this.subs.push(w);
+        },
+        notify() {
+            this.subs.forEach(w => {
+                w.update();
+            })
+        }
+    }
+    Dep.target = null;
+
+    function Watcher(vm, node, key) {
+        Dep.target = this;
+        console.log(this.update);
+        this.vm = vm;
+        this.node = node;
+        this.key = key;
+        // this.update();
+        Dep.target = null;
+    }
+
+    Watcher.prototype = {
+        get: function(){
+            this.value = this.vm[this.key];
+        },
+        update: function(){
+            this.get();
+            this.node.nodeValue = this.value;
+        }
+    }
+
+    console.dir(Watcher)
+
+</script>
+
+</html>
