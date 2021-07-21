@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS3</title>
+    <style>
+        .container {
+            width: 500px;
+            background-color: antiquewhite;
+            color: red;
+            border-width: 1px;
+            border-style: solid;
+        }
+
+        .box {
+            position: relative;
+            width: 100%;
+            padding-top: 61.8%;
+        }
+
+        .child {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 100%;
+            background-color: #2577e31a;
+        }
+        .float1 {
+            float: left;
+            width: 50px;
+            height: 50px;
+            background-color: aqua;
+        }
+        .float2 {
+            float: left;
+            width: 50px;
+            height: 50px;
+            background-color: pink;
+        }
+        .clearFix {
+            /* overflow: hidden; */
+            /* clear: both; */
+            /* position: absolute; */
+            /* display: inline-block; */
+            /* display: flex; */
+            /* display: table; */
+            /* display: table-cell; */
+            /* position: fixed; */
+            /* hiden scroll auto overlay */
+            overflow: scroll; 
+        }
+        /* .clearFix::after {
+            content: "";
+            visibility: hidden;
+            display: block;
+            width: 0;
+            height: 0;
+            clear: both;
+        } */
+    </style>
+</head>
+
+<body>
+    <div class="container clearFix">
+        <div class="float1"></div>
+        <div class="float2"></div>
+        <!-- <div class="box">
+            <div class="child"></div>
+        </div>
+        <div style="display: table-cell; background-color: aqua; width: 100px; height: 50px;"></div>
+        <div style="display: table-cell; background-color: aqua; width: 100px;"></div>
+        <div style="display: table-cell; background-color: aqua; width: 100px;"></div> -->
+        <!-- <div style="width: auto; height: 100px; background-color: aqua;"></div> -->
+    </div>
+</body>
+
+</html>
