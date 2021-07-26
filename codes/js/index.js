@@ -28,6 +28,47 @@ function __instanceof(a, b) {
 
     return false;
 }
-class Person {};
-const p = new Person();
-console.log(__instanceof(p, Array));
+// class Person {};
+// const p = new Person();
+// console.log(__instanceof(p, Array));
+// 1
+function fun(n,o) {
+    console.log(o)
+    return {
+      fun:function(m){
+        return fun(m,n);
+      }
+    };
+}
+// var a = fun(0);  a.fun(1);  a.fun(2);  a.fun(3);
+// var b = fun(0).fun(1).fun(2).fun(3);
+// var c = fun(0).fun(1);  c.fun(2);  c.fun(3);
+
+// 2
+// var a = [0];
+// if (a) {
+//     console.log(a == true);
+// } else {
+//     console.log("wut");
+// }
+
+// const res = [1,2,3,4,5].every((i, idx, arr) => {
+//     arr.push(1)
+//     return isFinite(i);
+// });
+
+// console.log(res)
+
+const arr = [['a', 'b'], ['n', 'm'], ['0', '1']];
+const res =  arr.reduce((xarr, tmpArr) => {
+    var arr = [];
+    xarr.forEach(i => {
+        tmpArr.forEach(j => {
+            arr.push(i+j)
+        })
+    })
+
+    return arr;
+}, [''])
+
+console.log(res)
