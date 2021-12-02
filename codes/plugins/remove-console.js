@@ -12,6 +12,9 @@ module.exports = ({ types: t }) => ({
                 // console.log、 console.log.call、console.log.apply
                 if (path.parentPath.isExpressionStatement()) {
                     path.remove();
+                } else if (path.parentPath.isVariableDeclarator()) {
+                    // var 定义
+                    path.replaceWith(createNoop(t));
                 } else {
                     path.replaceWith(createVoid0(t));
                 }
