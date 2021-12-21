@@ -1,3 +1,5 @@
+// n个一组，位置互换
+
 const arr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 function reverseByK(arr = [], k = 3) {
@@ -23,7 +25,7 @@ function reverseByK(arr = [], k = 3) {
     reverse(0)
 }
 
-// reverseByK(arr, 4);
+reverseByK(arr, 4);
 
 // 从数组 [1, 5, 8, 10, 12] 中找到两个数和为 9，返回 [1, 8] 这样的结果。
 // const _n = (num) => num.toString(2).replace(/0/g, '').length;
@@ -62,7 +64,7 @@ function findSumIsBy2(arr, N=2, M=9) {
 
     return result;
 }
-console.log(findSumIsBy2([1,2,3,4,5,6,7,8, 9, 10, 12, 15], 3, 18));
+// console.log(findSumIsBy2([1,2,3,4,5,6,7,8, 9, 10, 12, 15], 3, 18));
 
 // 将颜色rgb转换为16进制
 function rgb2hex(str) {
