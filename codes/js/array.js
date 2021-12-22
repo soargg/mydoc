@@ -34,7 +34,7 @@ function findSumIsMArrayList(array = [], n, SUM) {
     return result;
 }
 
-function divisionByKreverse(arr = [], k = 3) {
+function reverseByK(arr = [], k = 3) {
     if (k < 2) return;
 
     const size = arr.length;
@@ -71,7 +71,7 @@ function reverse(arr = []) {
 }
 
 console.log(findSumIsMArrayList(arr, 3, 8));
-// divisionByKreverse(arr, 4);
+// reverseByK(arr, 4);
 // reverse(arr);
 
 
