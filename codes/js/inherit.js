@@ -54,5 +54,23 @@ function Children(name) {
 Children.prototype = new Person();
 // new Children('jjia').say();
 
-console.log(new Person().__proto__ === Person.prototype)
-console.log(Person.prototype.__proto__ === Object.prototype);
+// console.log(new Person().__proto__ === Person.prototype)
+// console.log(Person.prototype.__proto__ === Object.prototype);
+
+function instanceoOf(instance, parent) {
+    const p = parent.prototype;
+
+    let preP = instance.__proto__
+
+    while(preP !== null) {
+        if (preP === p) {
+            return true;
+        }
+
+        preP = preP.__proto__;
+    }
+
+    return false;
+}
+
+console.log(instanceoOf(new Function, Function));

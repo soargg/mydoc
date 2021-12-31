@@ -126,3 +126,24 @@ function numIsLands(grid) {
 }
 // console.log(numIsLands(grid));
 
+// 爬楼梯，每次1阶或2阶，一共有多少中方法
+function climbStairs(n) {
+    if (n < 0) return 0;
+    if (n === 1 || n === 2) {
+        return n;
+    }
+
+    let next = 0;
+    let pre = 2;
+    let ppre = 1;
+
+    for(let i = 3; i <= n; i++ ) {
+        next = pre + ppre;
+        ppre = pre;
+        pre = next;
+    }
+    console.log('四阶楼梯：', next);
+    return next;
+}
+
+climbStairs(5)
