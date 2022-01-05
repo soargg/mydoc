@@ -1,4 +1,4 @@
-var arr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+var arr = [10, 11, 0, 5, 1, 2,  6, 7, 3, 4, 8, 9];
 
 const _n = (n) => {
     let count = 0;
@@ -70,9 +70,72 @@ function reverse(arr = []) {
     }
 }
 
-console.log(findSumIsMArrayList(arr, 3, 8));
+// console.log(findSumIsMArrayList(arr, 3, 8));
 // reverseByK(arr, 4);
 // reverse(arr);
 
 
 // console.log(arr);
+
+// 冒泡排序
+Array.prototype.bubblingSort = function() {
+    if (this.length < 2) {
+        return this;
+    }
+
+    for (let i = 0; i < this.length - 1; i++) {
+        const tep = this[i];
+        if (tep > this[i + 1]) {
+            this[i] = this[i + 1];
+            this[i + 1] = tep;
+        }
+    }
+
+    return this;
+}
+
+/**
+ * 选择排序
+ * @returns Array
+ */
+Array.prototype.selSort = function() {
+    const arr = this;
+    const size = this.length;
+
+    for (let i = 0; i < size - 1; i++) {
+        for (let j = i + 1; j < size; j++) {
+            if (arr[i] > arr[j] ) {
+                let t = arr[i];    
+                arr[i] = arr[j];
+                arr[j] = t;
+            }
+        }
+    }
+
+    return this;
+}
+
+/**
+ * 插入排序
+ * @returns Array
+ */
+Array.prototype.insertSort = function() {
+    const arr = this;
+    const size = this.length;
+
+    for (let i = 1; i < size - 1; i++) {
+        for(let j = i; j > 0; j--) {
+            if (arr[j] < arr[j - 1]) {
+                let t = arr[j];
+                arr[j] = arr[j-1];
+                arr[j-1] = t;
+            } else {
+                break;
+            }
+        }
+    }
+
+    return this;
+}
+
+console.log(arr.insertSort())

@@ -31,3 +31,15 @@ function rob(nums = []) {
 }
 
 rob(nums);
+
+
+// let num = parseInt('000000000000000001', 2);
+
+// let c = 0;
+
+// while(num !== 0) {
+//     num = num & (num - 1)
+//     c ++;
+// }
+
+// console.log(c)

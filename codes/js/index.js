@@ -72,3 +72,17 @@ const res =  arr.reduce((xarr, tmpArr) => {
 }, [''])
 
 console.log(res)
+
+function deepCopy(target) {
+    if (Array.isArray(target) || typeof target === 'object' && target !== null) {
+        const cloneTarget = Array.isArray(target) ? [] : {};
+        
+        for (let key in target) {
+            cloneTarget[key] = deepCopy(target[key]);
+        }
+
+        return cloneTarget;
+    }
+
+    return target;
+}
