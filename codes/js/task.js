@@ -106,27 +106,53 @@
 //     console.log(`setImmediate -> out`);
 // });
 
-let a, b;
-process.nextTick(() => {
-    console.log('1=>', a+b);
-});
+// let a, b;
+// process.nextTick(() => {
+//     console.log('1=>', a+b);
+// });
 
-a=1;b=2;
-setTimeout(() => {
-    process.nextTick(() => {
-        console.log('2=>', a+b);
+// a=1;b=2;
+// setTimeout(() => {
+//     process.nextTick(() => {
+//         console.log('2=>', a+b);
 
-        process.nextTick(() => {
-            a=7,b=8;
-            console.log('4=>', a+b);
-        });
-    });
-    a=3;b=4;
-}, 0)
+//         process.nextTick(() => {
+//             a=7,b=8;
+//             console.log('4=>', a+b);
+//         });
+//     });
+//     a=3;b=4;
+// }, 0)
 
-setImmediate(() => {
-    process.nextTick(() => {
-        console.log('3=>', a+b);
-    });
-    a=5;b=6;
+// setImmediate(() => {
+//     process.nextTick(() => {
+//         console.log('3=>', a+b);
+//     });
+//     a=5;b=6;
+// })
+
+// setTimeout(() => { console.log(1) }, 0)
+// setTimeout(() => { console.log(2) }, 0)
+// setImmediate(() => { console.log('setImmediate') })
+// Promise.resolve().then(() => { console.log('Promise') })
+// process.nextTick(() => { console.log('nextTick')})
+
+// const fs = require('fs');
+
+// fs.readFile(__filename, () => {
+//     setTimeout(() => {
+//         console.log('timeout');
+//     }, 0);
+//     setImmediate(() => {
+//         console.log('immediate');
+//     });
+// });
+
+const pp = new Promise(resolve => {
+    setTimeout(() => {
+        resolve(11231);
+    }, 50)
 })
+
+pp.then(res => { console.log(res) })
+pp.then(res => { console.log(res) })

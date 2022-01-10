@@ -21,10 +21,8 @@ class _Promise {
 
     onFullfilled(val) {
         if (this._status !== 'PENDING') return;
-        const handle = () => {
-            this._status = 'FULFILLED';
-            this._value = val; 
-        }
+        this._status = 'FULFILLED';
+        this._value = val; 
     }
 
     onRejected(error) {
@@ -51,7 +49,7 @@ class _Promise {
                         }
                     }
                 } catch (error) {
-                    onRejectedNext(error)
+                    onRejectedNext(error);
                 }
             };
 

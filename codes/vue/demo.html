@@ -22,7 +22,6 @@
         }
     });
 
-
     function Vue(conf) {
         this.id = conf.el;
         this.data = conf.data;
@@ -100,41 +99,35 @@
     }
 
     function Dep() {
-        this.subs = [];
-    }
-    Dep.prototype = {
-        addSub(w) {
+        this.addSub = function(w) {
             this.subs.push(w);
-        },
-        notify() {
+        };
+        this.notify = function() {
             this.subs.forEach(w => {
                 w.update();
             })
         }
+        this.subs = [];
     }
     Dep.target = null;
 
     function Watcher(vm, node, key) {
-        Dep.target = this;
-        console.log(this.update);
-        this.vm = vm;
-        this.node = node;
-        this.key = key;
-        // this.update();
-        Dep.target = null;
-    }
-
-    Watcher.prototype = {
-        get: function(){
+        this.get = get = function(){
             this.value = this.vm[this.key];
-        },
-        update: function(){
+        }
+
+        this.update = function(){
             this.get();
             this.node.nodeValue = this.value;
         }
-    }
 
-    console.dir(Watcher)
+        Dep.target = this;
+        this.vm = vm;
+        this.node = node;
+        this.key = key;
+        this.update();
+        Dep.target = null;
+    }
 
 </script>
 

@@ -31,3 +31,20 @@ function ajax({
         }
     }
 }
+
+function jsonp(url) {
+    return new Promise(reslove => {
+        const scriptEle = document.createElement('script');
+        const funName = `fun${Date.now()}`;
+        
+        window[funName] = (data) => {
+            document.body.removeChild(scriptEle);
+            delete window[funName];
+
+            reslove(data);
+        }
+
+        scriptEle.src = `${url}?cb=${funName}`;
+        document.body.appendChild(scriptEle);
+    })
+}

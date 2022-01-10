@@ -74,3 +74,56 @@ function instanceoOf(instance, parent) {
 }
 
 console.log(instanceoOf(new Function, Function));
+
+
+Function.prototype.myCall = function(context) {
+    if (typeof this !== 'function') {
+        throw new Error('Error');
+    }
+    context = context || window;
+    context.fn = this;
+    const result = context.fn(...Array.from(arguments).slice(1))
+    delete context.fn;
+
+    return result;
+}
+Function.prototype.myApply = function(context) {
+    if (typeof this !== 'function') {
+        throw new Error('Error');
+    }
+
+    context = context || window;
+    context.fn = this;
+
+    let result;
+    if (Array.isArray(arguments[1])) {
+        result = context.fn(...arguments[1])
+    } else {
+        result = context.fn()
+    }
+    delete context.fn;
+    return result;
+}
+
+
+Function.prototype.myBind = function(context) {
+    if (typeof this !== 'function') {
+        throw new Error('Error');
+    }
+    
+    const args = Array.from(arguments).slice(1);
+    const _this = this;
+    return function F() {
+        if ( this instanceof F ) {
+            return new _this(...args, ...arguments);
+        }
+
+        context = context || window;
+        return _this.apply(context, args.concat([...arguments]));
+    }
+}
+
+var arr = [1, 2];
+const push = Array.prototype.push.bind(arr, 3, 4, 5);
+push();
+console.log(arr);

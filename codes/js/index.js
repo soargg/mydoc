@@ -60,29 +60,20 @@ function fun(n,o) {
 // console.log(res)
 
 const arr = [['a', 'b'], ['n', 'm'], ['0', '1']];
-const res =  arr.reduce((xarr, tmpArr) => {
-    var arr = [];
-    xarr.forEach(i => {
-        tmpArr.forEach(j => {
-            arr.push(i+j)
+const mixArr = arr.reduce((lastArr, currArr) => {
+    const resArr = [];
+    lastArr.forEach(i => {
+        currArr.forEach(j => {
+            resArr.push(i + j)
         })
-    })
+    });
 
-    return arr;
+    return resArr;
 }, [''])
 
-console.log(res)
+console.log(mixArr);
 
-function deepCopy(target) {
-    if (Array.isArray(target) || typeof target === 'object' && target !== null) {
-        const cloneTarget = Array.isArray(target) ? [] : {};
-        
-        for (let key in target) {
-            cloneTarget[key] = deepCopy(target[key]);
-        }
+const prm = new Promise((reslove) => { reslove(1) });
+const prm2 = prm.then((res) => `next${res}`);
 
-        return cloneTarget;
-    }
-
-    return target;
-}
+console.log(prm === prm2);
