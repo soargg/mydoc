@@ -1,4 +1,4 @@
-function deepCopy(target) {
+export function deepCopy(target: Array<any> | Object) {
     if (Array.isArray(target) || typeof target === 'object' && target !== null) {
         const cloneTarget = Array.isArray(target) ? [] : {};
         
@@ -13,14 +13,14 @@ function deepCopy(target) {
 }
 
 // 将颜色rgb转换为16进制
-function rgb2hex(str) {
+export function rgb2hex(str: string): string {
     const numArr = str.match(/\d+/g).map(i => +i);
     // return `#${numArr.map(n => `${ +n < 16 ? '0' : '' }${(+n).toString(16)}`).join('')}`;
     const [r, g, b] = numArr;
     return '#' + ((r << 16) + (g << 8) + b).toString(16);
 }
 
-module.exports = {
-    deepCopy,
-    rgb2hex
+export function number_format(n: number | string): string {
+	const reg=/\d{1,3}(?=(\d{3})+$)/g;
+    return `${n}`.replace(reg, '$&,')
 }

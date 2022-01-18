@@ -65,8 +65,6 @@ function findSumIsBy2(arr, N = 2, M = 9) {
 
 // console.log(findSumIsBy2([1,2,3,4,5,6,7,8, 9, 10, 12, 15], 3, 18));
 
-// console.log(rgb2hex('rgb(25, 25, 25)'));
-
 // 岛屿数量问题
 const grid = [
     [1, 1, 0, 0, 0],
@@ -171,7 +169,7 @@ function longestSunString(str) {
     return res;
 }
 
-// console.log(longestSunString('abcabdbb'));
+console.log(longestSunString('abcabdbb'));
 
 class Schedule {
     arr = [1, 2, 3, 4, 5];
@@ -198,21 +196,311 @@ const sch = new Schedule;
 // sch.run()
 
 function longestPalindrome(str) {
-    let ans = '';
-    let n = str.length;
-    const dp = Array.from(new Array(n), () => new Array());
+    let resStr = '';
+    const n = str.length;
+    const dp = Array.from(new Array(n), () => []);
 
     for (let i = 0; i < n; i++) {
-        for(let j = i; j >= 0; j--) {
-            dp[i][j] = str[i] === str[j] && (i - j < 2 || dp[i - 1][j+1]);
-            
-            if (dp[i][j] && i - j + 1 > ans.length) {
-                ans = str.slice(j, i+1)
+        for(let j = i; j >=0; j--) {
+            dp[i][j] = str[i] === str[j] && (i - j < 2 || dp[i - 1][j + 1]);
+
+            if (dp[i][j] && i - j + 1 > resStr.length) {
+                resStr = str.substr(j, i - j + 1)
             }
         }
     }
 
-    return ans
+    return resStr;
 }
 
-console.log(longestPalindrome('sdafkfssa'))
+
+function convert(str, row) {
+    const n = str.length;
+    const res = Array.from(new Array(row), () =>[]);
+
+    for (let i = 0; i < n; i++) {
+        let f = i % (2 * (row - 1));
+        let j = f >= row ? 2 * (row - 1) - f : f;
+        
+        res[j].push(str[i])
+    }
+
+    return res.reduce(((r, t) => r + t.join('')), '');
+}
+
+// console.log(convert('LEETCODEISHIRING', 4));
+
+function reverseNum(num) {
+    let res = 0;
+    let f = num > 0 ? 1 : -1
+    num = Math.abs(num)
+    while(num !== 0) {
+        res = res * 10 + num % 10;
+        num = Math.floor(num / 10); 
+    }
+
+    return f * res;
+}
+
+function maxArea(arr) {
+    let max = 0;
+    const size = arr.length;
+    for (let i = 0; i < size; i++) {
+        for(let j = i; j < size; j++) {
+            let currentArea = Math.abs(j - i) * Math.min(arr[i], arr[j]);
+
+            max = Math.max(max, currentArea);
+        }
+    }
+
+    return max;
+}
+
+
+/**
+ * 整数转罗马数字
+ * 注意4和9的处理方式，由于9的罗马文需要用到10，
+ * I(1),V(5),X(10)处理范围[1,9]；
+ * X(10),L(50),C(100)处理范围[10,90]；
+ * C(100),D(500),M(1000)处理范围[100,900]；
+ * @param {Number} num 
+ */
+function int2Roman(num) {
+    const bit = {
+        0: ['I', 'V', 'X'],
+        1: ['X', 'L', 'C'],
+        2: ['C', 'D', 'M'],
+        3: ['M']
+    }
+
+    const toRoman = (n, curBit) => {
+        if (n === 0) return '';
+        if (n < 4) return curBit[0].repeat(n);
+        if (n === 4) return curBit[0] + curBit[1];
+        if (n < 9) return curBit[1] + curBit[0].repeat(n - 5)
+        if (n === 9) return curBit[0] + curBit[2]
+    }
+
+    let N = num;
+    const len = (num + '').length;
+    let res = '';
+
+    for (let i = len - 1; i >= 0; i--) {
+        const curMod = Math.pow(10, i)
+        let n = Math.floor(N/curMod);
+        N %= curMod;
+        res += toRoman(n, bit[i])
+    }
+
+    return res;
+}
+
+
+function roman2int(roman) {
+    const romanMap = {
+        I: 1,
+        V: 5,
+        X: 10,
+        L: 50,
+        C: 100,
+        D: 500,
+        M: 1000,
+    };
+
+    let num = 0;
+    let lastRomanNum = 0;
+    const len = roman.length;
+
+    for(let i = len - 1; i >= 0; i--) {
+        const curNum = romanMap[roman[i]];
+        num += curNum < lastRomanNum ? -curNum : curNum;
+        lastRomanNum = curNum;
+    }
+
+    return num;
+}
+
+// console.log(roman2int('LVIII'));
+
+
+function longestCommonPrefix(strArr) {
+    let comPre = strArr[0];
+    const size =strArr.length;
+    for (let i = 1; i < size; i++) {
+        let j = 0;
+        for(; j < strArr[i].length; j++) {
+            if (comPre[j] !== strArr[i][j]) break;
+        }
+
+        if (j === 0) return '';
+
+        comPre = comPre.substr(0, j)
+    }
+
+    return comPre;
+} 
+console.log(longestCommonPrefix(["flower","flow","flight"]))
+
+
+function findKItemSumIs(arr, k = 3, M) {
+    const result = [];
+    const len = arr.length;
+    const size = (1 << len) - 1;
+
+    const _n = (n) => {
+        let count = 0;
+        while (n !== 0) {
+            n &= n-1;
+            count++;
+        }
+        return count;
+    }
+
+    for(let i = (1 << 3) - 1; i < size; i++) {
+        if (_n(i) === k) {
+            let temp = [];
+            let count = 0;
+            for (let j = 0; j < len; j++) {
+                if ((i & (1 << j)) !== 0) {
+                    temp.push(arr[j])
+                    count += arr[j]
+                }
+            }
+            if (count === M) {
+                result.push(temp)
+            }
+        }
+    }
+
+    return result;
+}
+
+// console.log(findKItemSumIs([1,2,3,4,5,6,7,8, 9, 10, 12, 15], 3, 18));
+
+
+/**
+ * 
+ * @param {Array<number>} nums [-1, 0, 1, 2, -1, -4]
+ */
+function threeSum(nums) {
+    const reslut = [];
+    nums = nums.sort((x, y) => x - y);
+
+    for (let i = 0; i < nums.length; i++) {
+        // 排好序的，后面不可能是0 
+        if (nums[i] > 0) break;
+        
+        let left = i + 1, right = nums.length - 1;
+
+        while (left < right) {
+            if ( nums[i] + nums[left] + nums[right] === 0) {
+                reslut.push([ nums[i], nums[left], nums[right] ]);
+
+                while (nums[left] === nums[left + 1]) {
+                    left++;
+                }
+                left++;
+
+                while (nums[right] === nums[right - 1]) {
+                    right--;
+                }
+                right--;
+                continue;
+            } else if (nums[i] + nums[left] + nums[right] > 0) {
+                right--
+            } else {
+                left++
+            }
+        }
+    }
+
+    return reslut;
+}
+
+// console.log(threeSum([-1, 0, 1, 2, -1, -4]))
+
+function threeSumCloseM(nums, M) {
+    let result = [];
+    let min = Infinity;
+    nums = nums.sort((x, y) => x - y);
+    const size = nums.length;
+
+    for(let i = 0; i < size; i ++) {
+        let left = i + 1, right = size - 1;
+
+        if (nums[i] > M) break; 
+        while(left < right) {
+            let sum = nums[i] + nums[left] + nums[right];
+
+            if (Math.abs(M - sum) < min) {
+                min  = Math.abs(M - sum);
+                result = [nums[i], nums[left], nums[right]]
+            }
+
+            sum > M ? right-- : left ++;
+        }
+    }
+
+    return result;
+}
+
+// console.log(threeSumCloseM([-1,2,1,-4], 1));
+
+function letterCombinations(digits) {
+    if (!digits) {
+        return [];
+    }
+
+    const map = new Map();
+    map.set("2", "abc");
+    map.set("3", "def");
+    map.set("4", "ghi");
+    map.set("5", "jkl");
+    map.set("6", "mno");
+    map.set("7", "pqrs");
+    map.set("8", "tuv");
+    map.set("9", "wxyz");
+
+    const tempArr = digits.split('').map(key => map.get(key));
+    return tempArr.reduce((root, item) => {
+        const resArr = [];
+        root.forEach(b => {
+            for (let i = 0; i < item.length; i++) {
+                resArr.push(b + item[i])
+            }
+        });
+        return resArr;
+    }, [''])
+}
+
+// console.log(letterCombinations('239'));
+
+function collaps(str) {
+    const size = str.length;
+    let left = 0, right = size - 1;
+    let res = '';
+
+    while (left < right) {
+        res += (str[left] + '' + str[right]);
+        left++;
+        right--;
+    }
+
+    console.log(res);
+}
+
+// collaps('123456')
+function zstr(str, n=4) {
+    const res = Array.from(new Array(n), () => []);
+    const size = str.length;
+    const step = 2 * (n - 1);
+
+    for(let i = 0; i < size; i++) {
+        let c = i % step;
+        const idx = c < n ? c : step - c;
+        res[idx].push(str[i])
+    }
+    return res.reduce((s, sarr) => s + sarr.join(''), '')
+}
+
+// console.log(zstr('LEETCODEISHIRING', 4));

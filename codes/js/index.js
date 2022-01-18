@@ -28,52 +28,56 @@ function __instanceof(a, b) {
 
     return false;
 }
-// class Person {};
-// const p = new Person();
-// console.log(__instanceof(p, Array));
-// 1
-function fun(n,o) {
-    console.log(o)
-    return {
-      fun:function(m){
-        return fun(m,n);
-      }
-    };
-}
-// var a = fun(0);  a.fun(1);  a.fun(2);  a.fun(3);
-// var b = fun(0).fun(1).fun(2).fun(3);
-// var c = fun(0).fun(1);  c.fun(2);  c.fun(3);
 
-// 2
-// var a = [0];
-// if (a) {
-//     console.log(a == true);
-// } else {
-//     console.log("wut");
-// }
+const promise1 = new Promise(resolve=>setTimeout(resolve, 2000, 456))
+const promise2 = Promise.resolve('123')
 
-// const res = [1,2,3,4,5].every((i, idx, arr) => {
-//     arr.push(1)
-//     return isFinite(i);
-// });
+function promiseAll(promiseArr) {
+    return new Promise((reslove, reject) => {
+        const data = [];
+        let count = 0;
 
-// console.log(res)
+        promiseArr.forEach((pitem, index) => {
+            pitem.then(res => {
+                count++;
+                data[index] = res;
 
-const arr = [['a', 'b'], ['n', 'm'], ['0', '1']];
-const mixArr = arr.reduce((lastArr, currArr) => {
-    const resArr = [];
-    lastArr.forEach(i => {
-        currArr.forEach(j => {
-            resArr.push(i + j)
+                if (count === promiseArr.length) {
+                    reslove(data);
+                };
+            }).catch(err => {
+                reject(err);
+            })
         })
-    });
+    })
+}
 
-    return resArr;
-}, [''])
+// promiseAll([promise1, promise2]).then(r => {
+//     console.log(r);
+// })
 
-console.log(mixArr);
+// function* rang(start, end) {
+//     for (let i = start; i< end; i++) {
+//         yield i
+//     }
+// }
+// (async () => {
+//     const res = rang(0, 3);
+//     console.log(res.next())
+//     for await (const item of res) {
+//         console.log(item)
+//     }
+// })()
 
-const prm = new Promise((reslove) => { reslove(1) });
-const prm2 = prm.then((res) => `next${res}`);
+function* rang() {
+    for (let i = 0; i < 3; i++) {
+        yield i
+    }
+}
 
-console.log(prm === prm2);
+(async () => {
+    const res = rang()
+    for (const item of res) {
+        console.log(item)
+    }
+})()
