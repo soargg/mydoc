@@ -105,25 +105,24 @@ Function.prototype.myApply = function(context) {
     return result;
 }
 
+// var arr = [1, 2];
+// const push = Array.prototype.push.bind(arr, 3, 4, 5);
+// push();
+// console.log(arr);
 
-Function.prototype.myBind = function(context) {
+Function.prototype._bind = function (context) {
     if (typeof this !== 'function') {
-        throw new Error('Error');
+        throw new Error('context is not function');
     }
-    
-    const args = Array.from(arguments).slice(1);
+
     const _this = this;
+    const args = Array.from(arguments).slice(1);
+    
     return function F() {
-        if ( this instanceof F ) {
+        if (this instanceof F) {
             return new _this(...args, ...arguments);
+        } else {
+            return _this.apply(context, args.concat([...arguments]))
         }
-
-        context = context || window;
-        return _this.apply(context, args.concat([...arguments]));
     }
-}
-
-var arr = [1, 2];
-const push = Array.prototype.push.bind(arr, 3, 4, 5);
-push();
-console.log(arr);
+} 

@@ -1,11 +1,12 @@
 const ListNode = require("../js/listnode");
 
 function reverseStepK(head, k = 3) {
-    const dummyHead = new ListNode(0);
+    const dummyHead = new ListNode(null);
     dummyHead.next = head;
     let $start = dummyHead;
     let $end = head;
     let i = 0;
+
     while($end) {
         i++;
         if (i % k === 0) {
@@ -17,15 +18,15 @@ function reverseStepK(head, k = 3) {
     }
 
     function reverse(start, end) {
-        let curr = start.next;
         let prev = start;
+        let curr = start.next;
         const first = curr;
 
         while (curr !== end) {
-            const temp = curr.next;
+            const tmp = curr.next;
             curr.next = prev;
             prev = curr;
-            curr = temp;
+            curr = tmp;
         }
 
         start.next = prev;
@@ -37,4 +38,19 @@ function reverseStepK(head, k = 3) {
     return dummyHead.next;
 }
 
-console.log(reverseStepK(ListNode.from([1,2,3,4,5,6,7,8]), 3).toArray())
+console.log(reverseStepK(ListNode.from([1,2,3,4,5,6,7,8]), 4).toArray())
+
+// function reverseLiist(head) {
+//     let $p = null;
+
+//     while(head) {
+//         let temp = head.next;
+//         head.next = $p;
+//         $p = head;
+//         head = temp;
+//     }
+
+//     return $p;
+// }
+
+// console.log(reverseLiist(ListNode.from([1,2,3,4,5,6,7,8])).toArray())
