@@ -29,3 +29,19 @@ git remote -v  查看关联的远程仓库
 git remote add qunar[别名] git@git.xxx 新增关联仓库
 git pull origin master 
 */
+
+function sleep(num = 100) {
+    return new Promise(reslove => {
+        setTimeout(() => {
+            reslove(true);
+        }, num);
+    })
+}
+
+async function test() {
+    console.log(123)
+    await sleep(1000)
+    console.log(456)
+}
+
+test()
